@@ -31,7 +31,10 @@ func (s *s3Driver) Open(folder string) (source.Driver, error) {
 	if err != nil {
 		return nil, err
 	}
-	sess, err := session.NewSession()
+	values := u.Query()
+	config := &aws.Config{}
+	config.Endpoint = aws.String(values.Get("endpoint"))
+	sess, err := session.NewSession(config)
 	if err != nil {
 		return nil, err
 	}
